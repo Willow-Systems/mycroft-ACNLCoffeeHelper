@@ -34,7 +34,10 @@ class AcnlCoffeeSkill(MycroftSkill):
 	beans = self._lookup(villager, "beans")
 	milk = self._lookup(villager, "milk")
 	sugar = self._lookup(villager, "sugar")
-	self.speak_dialog('answers', {'villager': villager, 'milk': milk, 'sugar': sugar + " spoonfuls", 'beans': beans})
+	if not beans:
+		self.speak_dialog('novillager', {'villager': villager})
+	else:
+		self.speak_dialog('answers', {'villager': villager, 'milk': milk, 'sugar': sugar + " spoonfuls", 'beans': beans})
 
     def _lookup(self, searchterm, item):
 	#Currently this searches the list 3 times, but it does mean you can ask for just one thing (e.g. sugar)
