@@ -14,6 +14,8 @@
 
 import re
 import json
+import os
+from os.path import join, isfile, abspath, dirname
 from adapt.intent import IntentBuilder
 
 from mycroft.skills.core import MycroftSkill, intent_handler
@@ -37,7 +39,9 @@ class AcnlCoffeeSkill(MycroftSkill):
     def _lookup(self, searchterm, item):
 	#Currently this searches the list 3 times, but it does mean you can ask for just one thing (e.g. sugar)
 	try:
-		jsonfile = open("/opt/mycroft/skills/skill-acnlCoffee/acnlcoffee.json","r")
+		fpath = join(abspath(dirname(__file__)), 'acnlcoffee.json')
+		jsonfile = open(fpath,"r")
+		cwd = os.getcwd()
 		jsonstring = jsonfile.read()
 
 		decoded = json.loads(jsonstring)
@@ -55,11 +59,6 @@ class AcnlCoffeeSkill(MycroftSkill):
 
 	except Exception as e:
             LOG.error("Error: {0}".format(e))
-
-#    @intent_handler(IntentBuilder("").require("Ask"))
-#    def handle_intent_2(self,message):
-#        #animal = message.data.get("Animal")
-#	self.speak_dialog('answers', {'animal': "Turd", 'milk': "some", 'sugar': "loads", 'beans': "baked beans"})
 
 def create_skill():
     return AcnlCoffeeSkill()
