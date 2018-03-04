@@ -30,7 +30,7 @@ class AcnlCoffeeSkill(MycroftSkill):
     def handle_intent(self, message):
         # Extract what the user asked about
 	self.speak("Let me see")
-        villager = message.data.get("Animal")
+    villager = message.data.get("Animal")
 	beans = self._lookup(villager, "beans")
 	milk = self._lookup(villager, "milk")
 	sugar = self._lookup(villager, "sugar")
@@ -44,12 +44,11 @@ class AcnlCoffeeSkill(MycroftSkill):
 	try:
 		fpath = join(abspath(dirname(__file__)), 'acnlcoffee.json')
 		jsonfile = open(fpath,"r")
-		cwd = os.getcwd()
 		jsonstring = jsonfile.read()
 
 		decoded = json.loads(jsonstring)
 		for x in decoded['villagers']:
-		        if (x['name'].lower() == searchterm.lower()):
+            if (x['name'].lower() == searchterm.lower()):
 				if (item.lower() == "beans"):
 					return x["beans"]
 				elif (item.lower() == "milk"):
@@ -58,7 +57,12 @@ class AcnlCoffeeSkill(MycroftSkill):
 						strmilk = strmilk + " of"
 					return strmilk
 				elif (item.lower() == "sugar"):
-					return x["sugar"]	
+					strsugar = x["sugar"]
+                    if (strsugar != "1"):
+                        strsugar = strsugar + " spoonfuls"
+                    else:
+                        strsugar = strsugar + " spoonful"
+                    return strsugar
 
 	except Exception as e:
             LOG.error("Error: {0}".format(e))
