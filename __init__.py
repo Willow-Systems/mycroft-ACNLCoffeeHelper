@@ -30,14 +30,14 @@ class AcnlCoffeeSkill(MycroftSkill):
     def handle_intent(self, message):
         # Extract what the user asked about
 	self.speak("Let me see")
-    villager = message.data.get("Animal")
+        villager = message.data.get("Animal")
 	beans = self._lookup(villager, "beans")
 	milk = self._lookup(villager, "milk")
 	sugar = self._lookup(villager, "sugar")
 	if not beans:
 		self.speak_dialog('novillager', {'villager': villager})
 	else:
-		self.speak_dialog('answers', {'villager': villager, 'milk': milk, 'sugar': sugar + " spoonfuls", 'beans': beans})
+		self.speak_dialog('answers', {'villager': villager, 'milk': milk, 'sugar': sugar, 'beans': beans})
 
     def _lookup(self, searchterm, item):
 	#Currently this searches the list 3 times, but it does mean you can ask for just one thing (e.g. sugar)
@@ -48,7 +48,7 @@ class AcnlCoffeeSkill(MycroftSkill):
 
 		decoded = json.loads(jsonstring)
 		for x in decoded['villagers']:
-            if (x['name'].lower() == searchterm.lower()):
+                    if (x['name'].lower() == searchterm.lower()):
 				if (item.lower() == "beans"):
 					return x["beans"]
 				elif (item.lower() == "milk"):
@@ -57,12 +57,12 @@ class AcnlCoffeeSkill(MycroftSkill):
 						strmilk = strmilk + " of"
 					return strmilk
 				elif (item.lower() == "sugar"):
-					strsugar = x["sugar"]
-                    if (strsugar != "1"):
-                        strsugar = strsugar + " spoonfuls"
-                    else:
-                        strsugar = strsugar + " spoonful"
-                    return strsugar
+				    strsugar = x["sugar"]
+                                    if (strsugar != "1"):
+                                        strsugar = strsugar + " spoonfuls"
+                                    else:
+                                        strsugar = strsugar + " spoonful"
+                                    return strsugar
 
 	except Exception as e:
             LOG.error("Error: {0}".format(e))
